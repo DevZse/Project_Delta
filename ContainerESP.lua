@@ -100,7 +100,7 @@ local function Draw(Container)
 
 		Drawing.Color = Color
 		Drawing.Position = Vector2.new(Position.X, Position.Y, Position.Z)
-		Drawing.Text = "[$" .. Price .. "]\n" .. Container.Name .. "\n" .. Loot
+		Drawing.Text = "$" .. Price .. "\n" .. Container:GetAttribute("DisplayName") .. "\n" .. Loot
 		Drawing.Visible = true
 	end)
 end;
