@@ -45,7 +45,7 @@ local function Draw(Container)
 	Drawing.Center = true
 	Drawing.Font = 2
 	Drawing.Outline = true
-	Drawing.Size = 12
+	Drawing.Size = 14
 
 	local Connection;
 	Connection = RunService.RenderStepped:Connect(function()
