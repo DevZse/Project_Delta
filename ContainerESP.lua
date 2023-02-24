@@ -10,10 +10,12 @@ local Cache = {
 	["Factory Garage Key"] = 4,
 	["Flare Gun"] = 8,
 	["Fueling Station Office Key"] = 4,
+	["Hammer"] = 1,
 	["Metal Nails"] = 1,
 	["Metal Nuts"] = 1,
 	["Super Glue"] = 1,
-	["Village Key"] = 4
+	["Village Key"] = 4,
+	["Wrench"] = 1,
 };
 
 local Colors = {
