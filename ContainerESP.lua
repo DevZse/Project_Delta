@@ -4,8 +4,8 @@ local UserInputService = game:GetService("UserInputService");
 local Workspace = game:GetService("Workspace");
 
 local Cache = {
-	["ATC Key"] = 4,
 	["6B45"] = 16,
+	["ATC Key"] = 4,
 	["Altyn Helmet"] = 16,
 	["Defense Advanced GPS Receiver"] = 8,
 	["Duct Tape"] = 1,
