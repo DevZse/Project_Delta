@@ -5,8 +5,10 @@ local Workspace = game:GetService("Workspace");
 
 local Cache = {
 	["ATC Key"] = 4,
-	["Duct Tape"] = 1,
+	["6B45"] = 16,
+	["Altyn Helmet"] = 16,
 	["Defense Advanced GPS Receiver"] = 8,
+	["Duct Tape"] = 1,
 	["Factory Garage Key"] = 4,
 	["Flare Gun"] = 8,
 	["Fueling Station Office Key"] = 4,
@@ -15,19 +17,20 @@ local Cache = {
 	["Metal Nuts"] = 1,
 	["Super Glue"] = 1,
 	["Village Key"] = 4,
-	["Wrench"] = 1,
+	["Wrench"] = 1
 };
 
 local Colors = {
 	[0] = Color3.fromRGB(255, 255, 255),
 	[4] = Color3.fromRGB(135, 206, 235),
 	[8] = Color3.fromRGB(233, 116, 81),
-	[16] = Color3.fromRGB(218, 112, 214)
+	[16] = Color3.fromRGB(218, 112, 214),
+	[32] = Color3.fromRGB(76, 187, 23)
 };
 
 local Active = true;
 local Keybind = Enum.KeyCode.P;
-local RenderDistance = 400;
+local RenderDistance = 200;
 
 local Camera = Workspace.CurrentCamera;
 local Containers = Workspace:WaitForChild("Containers");
@@ -78,7 +81,7 @@ local function Draw(Container)
 
 		local Amount = 1
 		local ItemName;
-		local Price = 0
+		local TotalPrice = 0
 		local Value = 0
 
 		local Color;
@@ -88,7 +91,7 @@ local function Draw(Container)
 		for _, v in pairs(Container.Inventory:GetChildren()) do
 			Amount = v.ItemProperties:GetAttribute("Amount") or 1
 			ItemName = v.ItemProperties:GetAttribute("ItemName")
-			Price += v.ItemProperties:GetAttribute("Price") or 0
+			TotalPrice += v.ItemProperties:GetAttribute("Price") or 0
 			Value += (Cache[ItemName] or 0) * Amount
 			Loot ..= ItemName .. " (x" .. Amount .. ")\n"
 		end
@@ -102,7 +105,7 @@ local function Draw(Container)
 
 		Drawing.Color = Color
 		Drawing.Position = Vector2.new(Position.X, Position.Y, Position.Z)
-		Drawing.Text = "$" .. Price .. "\n" .. Container:GetAttribute("DisplayName") .. "\n" .. Loot
+		Drawing.Text = "$" .. TotalPrice .. "\n" .. Container:GetAttribute("DisplayName") .. "\n" .. Loot
 		Drawing.Visible = true
 	end)
 end;
