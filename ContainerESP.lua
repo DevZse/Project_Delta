@@ -5,16 +5,26 @@ local Workspace = game:GetService("Workspace");
 
 local Cache = {
 	["6B45"] = 16,
+	["AS Val"] = 16,
 	["ATC Key"] = 4,
+	["Airfield Key"] = 6,
 	["Altyn Helmet"] = 16,
-	["Defense Advanced GPS Receiver"] = 8,
+	["Altyn Visor"] = 8,
+	["Attak-5 60L"] = 16,
+	["Crane Key"] = 6,
+	["DAGR"] = 8,
 	["Duct Tape"] = 1,
-	["Factory Garage Key"] = 4,
+	["Fast MT"] = 10,
 	["Flare Gun"] = 8,
-	["Fueling Station Office Key"] = 4,
+	["Fueling Station Key"] = 4,
+	["Garage Key"] = 4,
 	["Hammer"] = 1,
-	["Metal Nails"] = 1,
-	["Metal Nuts"] = 1,
+	["JPC"] = 10,
+	["Lighthouse Key"] = 6,
+	["M4A1"] = 12,
+	["Nails"] = 1,
+	["Nuts"] = 1,
+	["Saiga 12"] = 8,
 	["Super Glue"] = 1,
 	["Village Key"] = 4,
 	["Wrench"] = 1
@@ -22,10 +32,10 @@ local Cache = {
 
 local Colors = {
 	[0] = Color3.fromRGB(255, 255, 255),
-	[4] = Color3.fromRGB(135, 206, 235),
-	[8] = Color3.fromRGB(233, 116, 81),
-	[16] = Color3.fromRGB(218, 112, 214),
-	[32] = Color3.fromRGB(76, 187, 23)
+	[4] = Color3.fromRGB(76, 187, 23),
+	[8] = Color3.fromRGB(218, 112, 214),
+	[16] = Color3.fromRGB(233, 116, 81),
+	[32] = Color3.fromRGB(255, 36, 0)
 };
 
 local Active = true;
@@ -91,7 +101,7 @@ local function Draw(Container)
 
 		for _, v in pairs(Container.Inventory:GetChildren()) do
 			Amount = v.ItemProperties:GetAttribute("Amount") or 1
-			ItemName = v.ItemProperties:GetAttribute("ItemName")
+			ItemName = v.ItemProperties:GetAttribute("CallSign")
 			TotalPrice += v.ItemProperties:GetAttribute("Price") or 0
 			Value += (Cache[ItemName] or 0) * Amount
 			Loot ..= ItemName .. " (x" .. Amount .. ")\n"
