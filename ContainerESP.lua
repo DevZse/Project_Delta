@@ -81,6 +81,7 @@ local function Draw(Container)
 
 		local Amount = 1
 		local ItemName;
+		local NextSpawn = (Container:GetAttribute("NextSpawn") or 0) - os.time()
 		local TotalPrice = 0
 		local Value = 0
 
@@ -104,8 +105,8 @@ local function Draw(Container)
 		end
 
 		Drawing.Color = Color
-		Drawing.Position = Vector2.new(Position.X, Position.Y, Position.Z)
-		Drawing.Text = "$" .. TotalPrice .. "\n" .. Container:GetAttribute("DisplayName") .. "\n" .. Loot
+		Drawing.Position = Vector2.new(Position.X, Position.Y)
+		Drawing.Text = "$" .. TotalPrice .. "\n" .. Container:GetAttribute("DisplayName") .. (NextSpawn < 0 and "\nNot loaded" or "\n" .. Loot .. "Next Spawn: " .. NextSpawn .. "s")
 		Drawing.Visible = true
 	end)
 end;
