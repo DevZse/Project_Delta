@@ -150,7 +150,7 @@ UserInputService.InputBegan:Connect(function(Input)
 		RenderDistance = math.clamp(RenderDistance + (Input.KeyCode == Enum.KeyCode.Down and -100 or 100), 100, 1200)
 	end
 
-	TextLabel.Text = "Render Distance: " .. RenderDistance .. [[<br /><font color = "rgb(255, 0, 0)">[↓]</font> Decrease render distance by 100<br /><font color = "rgb(0, 255, 0)">[↑]</font> Increase render distance by 100<br /><font color = "rgb(255, 255, 0)">]] .. Keybind.Name .. "</font> Enable / Disable ESP (" .. (Active and "Enabled" or "Disabled") .. ")"
+	TextLabel.Text = "Render Distance: " .. RenderDistance .. [[<br /><font color = "rgb(255, 0, 0)">[↓]</font> Decrease render distance by 100<br /><font color = "rgb(0, 255, 0)">[↑]</font> Increase render distance by 100<br /><font color = "rgb(255, 255, 0)">[]] .. Keybind.Name .. "]</font> Enable / Disable ESP (" .. (Active and "Enabled" or "Disabled") .. ")"
 end)
 
 for _, v in pairs(Containers:GetDescendants()) do
