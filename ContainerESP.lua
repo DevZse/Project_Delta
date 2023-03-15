@@ -1,7 +1,30 @@
-local Players = game:GetService("Players");
-local RunService = game:GetService("RunService");
-local UserInputService = game:GetService("UserInputService");
-local Workspace = game:GetService("Workspace");
+local CoreGui = game:GetService("CoreGui")
+local Players = game:GetService("Players")
+local RunService = game:GetService("RunService")
+local UserInputService = game:GetService("UserInputService")
+local Workspace = game:GetService("Workspace")
+
+local Active = true
+local Keybind = Enum.KeyCode.P
+local RenderDistance = 200
+
+local ScreenGui = Instance.new("ScreenGui")
+syn.protect_gui(ScreenGui)
+ScreenGui.ZIndexBehavior = Enum.ZIndexBehavior.Global
+ScreenGui.Parent = CoreGui
+
+local TextLabel = Instance.new("TextLabel")
+TextLabel.BackgroundTransparency = 1
+TextLabel.Position = UDim2.new(0.02, 0, 0.2, 0)
+TextLabel.Size = UDim2.new(0, 0, 0, 0)
+TextLabel.Text = "Render Distance: " .. RenderDistance .. [[<br /><font color = "rgb(255, 0, 0)">[↓]</font> Decrease render distance by 100<br /><font color = "rgb(0, 255, 0)">[↑]</font> Increase render distance by 100<br /><font color = "rgb(255, 255, 0)">]] .. Keybind.Name .. "</font> Enable / Disable ESP (" .. (Active and "Enabled" or "Disabled") .. ")"
+TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
+TextLabel.Font = Enum.Font.RobotoMono
+TextLabel.RichText = true
+TextLabel.TextSize = 20
+TextLabel.TextStrokeTransparency = 0
+TextLabel.TextXAlignment = Enum.TextXAlignment.Left
+TextLabel.Parent = ScreenGui
 
 local Cache = {
 	["6B45"] = 16,
@@ -11,6 +34,7 @@ local Cache = {
 	["Altyn Helmet"] = 16,
 	["Altyn Visor"] = 8,
 	["Attak-5 60L"] = 16,
+	["Bolts"] = 1,
 	["Crane Key"] = 6,
 	["DAGR"] = 8,
 	["Duct Tape"] = 1,
@@ -28,7 +52,7 @@ local Cache = {
 	["Super Glue"] = 1,
 	["Village Key"] = 4,
 	["Wrench"] = 1
-};
+}
 
 local Colors = {
 	[0] = Color3.fromRGB(255, 255, 255),
@@ -36,24 +60,20 @@ local Colors = {
 	[8] = Color3.fromRGB(218, 112, 214),
 	[16] = Color3.fromRGB(233, 116, 81),
 	[32] = Color3.fromRGB(255, 36, 0)
-};
+}
 
-local Active = true;
-local Keybind = Enum.KeyCode.P;
-local RenderDistance = 200;
+local Camera = Workspace.CurrentCamera
+local Containers = Workspace:WaitForChild("Containers")
 
-local Camera = Workspace.CurrentCamera;
-local Containers = Workspace:WaitForChild("Containers");
-
-local LocalPlayer = Players.LocalPlayer;
-local Character = LocalPlayer.Character;
+local LocalPlayer = Players.LocalPlayer
+local Character = LocalPlayer.Character
 
 while true do
 	if LocalPlayer.Character then
 		Character = LocalPlayer.Character; break
 	end
 	RunService.RenderStepped:Wait()
-end;
+end
 
 local function Draw(Container)
 	local Drawing = Drawing.new("Text")
@@ -119,22 +139,24 @@ local function Draw(Container)
 		Drawing.Text = "$" .. TotalPrice .. "\n" .. Container:GetAttribute("DisplayName") .. (NextSpawn < 0 and "\nNot loaded" or "\n" .. Loot .. "Next Spawn: " .. NextSpawn .. "s")
 		Drawing.Visible = true
 	end)
-end;
+end
 
-UserInputService.InputBegan:Connect(function(Input, GameProcessedEvent)
-	if GameProcessedEvent then
-		return
-	end
-
+UserInputService.InputBegan:Connect(function(Input)
 	if Input.KeyCode == Keybind then
 		Active = not Active
 	end
-end);
+
+	if Input.KeyCode == Enum.KeyCode.Down or Input.KeyCode == Enum.KeyCode.Up then
+		RenderDistance = math.clamp(RenderDistance + (Input.KeyCode == Enum.KeyCode.Down and -100 or 100), 100, 1200)
+	end
+
+	TextLabel.Text = "Render Distance: " .. RenderDistance .. [[<br /><font color = "rgb(255, 0, 0)">[↓]</font> Decrease render distance by 100<br /><font color = "rgb(0, 255, 0)">[↑]</font> Increase render distance by 100<br /><font color = "rgb(255, 255, 0)">]] .. Keybind.Name .. "</font> Enable / Disable ESP (" .. (Active and "Enabled" or "Disabled") .. ")"
+end)
 
 for _, v in pairs(Containers:GetDescendants()) do
 	if v:IsA("Model") then
 		Draw(v)
 	end
-end;
+end
 
-Containers.ChildAdded:Connect(Draw);
+Containers.ChildAdded:Connect(Draw)
