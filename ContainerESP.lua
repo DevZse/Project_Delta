@@ -17,7 +17,7 @@ local TextLabel = Instance.new("TextLabel")
 TextLabel.BackgroundTransparency = 1
 TextLabel.Position = UDim2.new(0.02, 0, 0.2, 0)
 TextLabel.Size = UDim2.new(0, 0, 0, 0)
-TextLabel.Text = "Render Distance: " .. RenderDistance .. [[<br /><font color = "rgb(255, 0, 0)">[↓]</font> Decrease render distance by 100<br /><font color = "rgb(0, 255, 0)">[↑]</font> Increase render distance by 100<br /><font color = "rgb(255, 255, 0)">]] .. Keybind.Name .. "</font> Enable / Disable ESP (" .. (Active and "Enabled" or "Disabled") .. ")"
+TextLabel.Text = "Render Distance: " .. RenderDistance .. [[<br /><font color = "rgb(255, 0, 0)">[↓]</font> Decrease render distance by 100<br /><font color = "rgb(0, 255, 0)">[↑]</font> Increase render distance by 100<br /><font color = "rgb(255, 255, 0)">[]] .. Keybind.Name .. "]</font> Enable / Disable ESP (" .. (Active and "Enabled" or "Disabled") .. ")"
 TextLabel.TextColor3 = Color3.fromRGB(255, 255, 255)
 TextLabel.Font = Enum.Font.RobotoMono
 TextLabel.RichText = true
