@@ -26,7 +26,7 @@ TextLabel.TextStrokeTransparency = 0
 TextLabel.TextXAlignment = Enum.TextXAlignment.Left
 TextLabel.Parent = ScreenGui
 
-local Cache = {
+local ValueCache = {
 	["6B45"] = 16,
 	["AS Val"] = 16,
 	["ATC Key"] = 4,
@@ -54,7 +54,7 @@ local Cache = {
 	["Wrench"] = 1
 }
 
-local Colors = {
+local ValueSettings = {
 	[0] = Color3.fromRGB(255, 255, 255),
 	[4] = Color3.fromRGB(76, 187, 23),
 	[8] = Color3.fromRGB(218, 112, 214),
@@ -100,7 +100,8 @@ local function Draw(Container)
 			Drawing.Visible = false; return
 		end
 
-		if (Container.PrimaryPart.Position - Character.HumanoidRootPart.Position).Magnitude > RenderDistance then
+		local Distance = (Container.PrimaryPart.Position - Character.HumanoidRootPart.Position).Magnitude
+		if Distance > RenderDistance then
 			Drawing.Visible = false; return
 		end
 
@@ -109,7 +110,7 @@ local function Draw(Container)
 			Drawing.Visible = false; return
 		end
 
-		local Amount = 1
+		local Amount;
 		local ItemName;
 		local NextSpawn = (Container:GetAttribute("NextSpawn") or 0) - os.time()
 		local TotalPrice = 0
@@ -123,11 +124,11 @@ local function Draw(Container)
 			Amount = v.ItemProperties:GetAttribute("Amount") or 1
 			ItemName = v.ItemProperties:GetAttribute("CallSign")
 			TotalPrice += v.ItemProperties:GetAttribute("Price") or 0
-			Value += (Cache[ItemName] or 0) * Amount
+			Value += (ValueCache[ItemName] or 0) * Amount
 			Loot ..= ItemName .. " (x" .. Amount .. ")\n"
 		end
 
-		for i, v in pairs(Colors) do
+		for i, v in pairs(ValueSettings) do
 			if Value >= i and i > Highest then
 				Color = v
 				Highest = i
@@ -136,13 +137,14 @@ local function Draw(Container)
 
 		Drawing.Color = Color
 		Drawing.Position = Vector2.new(Position.X, Position.Y)
-		Drawing.Text = "$" .. TotalPrice .. "\n" .. Container:GetAttribute("DisplayName") .. (NextSpawn < 0 and "\nNot loaded" or "\n" .. Loot .. "Next Spawn: " .. NextSpawn .. "s")
+		Drawing.Text = "$" .. TotalPrice .. "\n" .. Container:GetAttribute("DisplayName") .. "\n" .. (NextSpawn < 0 and "Not loaded" or Loot .. "Next Spawn: " .. NextSpawn .. "s") .. "\n" .. math.round(Distance)
+		Drawing.ZIndex = Value
 		Drawing.Visible = true
 	end)
 end
 
-UserInputService.InputBegan:Connect(function(Input)
-	if Input.KeyCode == Keybind then
+UserInputService.InputBegan:Connect(function(Input, GameProcessedEvent)
+	if Input.KeyCode == Keybind and not GameProcessedEvent then
 		Active = not Active
 	end
 
